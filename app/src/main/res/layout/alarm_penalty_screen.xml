@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alarm_failed_message"
+        android:textAlignment="center"
+        android:textColor="#2f2f2f"
+        android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/penaltyInformationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/penalty_amount_warning"
+        android:textAlignment="center"
+        android:textSize="18sp" />
+
+</LinearLayout>
