@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.core.app.ActivityCompat;
@@ -37,40 +36,23 @@ import java.io.IOException;
 public class AlarmScreenActivity extends Activity {
 
     private static final String TAG = "FaceTracker";
-
-    private CameraSource mCameraSource = null;
-
-    private CameraSourcePreview mPreview;
-    private GraphicOverlay mGraphicOverlay;
-
     private static final int RC_HANDLE_GMS = 9001;
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
+    private CameraSource mCameraSource = null;
+    private CameraSourcePreview mPreview;
+    private GraphicOverlay mGraphicOverlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.alarm_screen);
         Bundle list = getIntent().getExtras();
-
-        System.out.println(list);
         TextView timeField = findViewById(R.id.timeTextView);
-        TextView descriptionField = findViewById(R.id.penaltyTextView);
-
-
         // Create an instance of Camera
         if (list != null) {
-
-            String alarmClockDescription = list.getString(AlarmClock.INTENT_KEY_DESCRIPTION);
             String alarmClockTime = list.getString(AlarmClock.INTENT_KEY_TIME);
-            int alarmClockId = list.getInt(AlarmClock.INTENT_KEY_ID, -1);
-
-            if (alarmClockDescription != null) {
-                descriptionField.setText(alarmClockDescription);
-            }
-
             timeField.setText(alarmClockTime);
-
         }
 
         NotificationManager mNotificationManager =
@@ -81,11 +63,11 @@ public class AlarmScreenActivity extends Activity {
                     channelId,
                     "Благотворительный будильник",
                     NotificationManager.IMPORTANCE_HIGH);
+            assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(channel);
             mNotificationManager.cancel(0);
 
         }
-
 
 
         mPreview = findViewById(R.id.preview);
@@ -104,7 +86,9 @@ public class AlarmScreenActivity extends Activity {
 
     @Override
     public void finish() {
-        mCameraSource.stop();
+
+        Intent in = new Intent(this, RingtonePlayingService.class);
+        this.stopService(in);
         super.finish();
     }
 
@@ -311,7 +295,7 @@ public class AlarmScreenActivity extends Activity {
 
         GraphicFaceTracker(GraphicOverlay overlay) {
             mOverlay = overlay;
-            mFaceGraphic = new FaceGraphic(overlay, AlarmScreenActivity.this);
+            mFaceGraphic = new FaceGraphic(overlay, AlarmScreenActivity.this, AlarmScreenActivity.this);
         }
 
         /**
@@ -340,6 +324,7 @@ public class AlarmScreenActivity extends Activity {
         public void onMissing(FaceDetector.Detections<Face> detectionResults) {
             mOverlay.remove(mFaceGraphic);
         }
+
         /**
          * Called when the face is assumed to be gone for good. Remove the graphic annotation from
          * the overlay.

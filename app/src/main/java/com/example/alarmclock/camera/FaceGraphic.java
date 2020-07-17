@@ -22,11 +22,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.example.alarmclock.MainActivity;
+import com.example.alarmclock.R;
 import com.example.alarmclock.RingtonePlayingService;
 import com.example.alarmclock.WakeUpService;
-import com.example.alarmclock.camera.GraphicOverlay;
 import com.google.android.gms.vision.face.Face;
 
 /**
@@ -41,13 +42,13 @@ public class FaceGraphic extends GraphicOverlay.Graphic {
     private static final float BOX_STROKE_WIDTH = 5.0f;
 
     private static final int COLOR_CHOICES[] = {
-        Color.BLUE,
-        Color.CYAN,
-        Color.GREEN,
-        Color.MAGENTA,
-        Color.RED,
-        Color.WHITE,
-        Color.YELLOW
+            Color.BLUE,
+            Color.CYAN,
+            Color.GREEN,
+            Color.MAGENTA,
+            Color.RED,
+            Color.WHITE,
+            Color.YELLOW
     };
     private static int mCurrentColorIndex = 0;
 
@@ -59,15 +60,20 @@ public class FaceGraphic extends GraphicOverlay.Graphic {
     private int mFaceId;
     private float mFaceHappiness;
     Context context;
-    public FaceGraphic(GraphicOverlay overlay, Context context) {
+    Activity activity;
+    ProgressBar bar;
+
+    public FaceGraphic(GraphicOverlay overlay, Context context, Activity activity) {
         super(overlay);
-        this.context=context;
+        this.context = context;
+        this.activity = activity;
         mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.length;
         final int selectedColor = COLOR_CHOICES[mCurrentColorIndex];
 
+        bar = activity.findViewById(R.id.progressBar);
         mFacePositionPaint = new Paint();
         mFacePositionPaint.setColor(selectedColor);
-//
+
         mIdPaint = new Paint();
         mIdPaint.setColor(selectedColor);
         mIdPaint.setTextSize(ID_TEXT_SIZE);
@@ -102,41 +108,25 @@ public class FaceGraphic extends GraphicOverlay.Graphic {
             return;
         }
 
-        // Draws a circle at the position of the detected face, with the face's track id below.
         float x = translateX(face.getPosition().x + face.getWidth() / 2);
         float y = translateY(face.getPosition().y + face.getHeight() / 2);
-//        canvas.drawCircle(x, y, FACE_POSITION_RADIUS, mFacePositionPaint);
-//        canvas.drawText("id: " + mFaceId, x + ID_X_OFFSET, y + ID_Y_OFFSET, mIdPaint);
-
         float xOffset = scaleX(face.getWidth() / 2.0f);
-
-//        canvas.drawText("Ccаная улыбка: " + String.format("%.2f", face.getIsSmilingProbability()), x - ID_X_OFFSET, y - ID_Y_OFFSET, mIdPaint);
-//        canvas.drawText("right eye: " + String.format("%.2f", face.getIsRightEyeOpenProbability()), x + ID_X_OFFSET * 2, y + ID_Y_OFFSET * 2, mIdPaint);
-//        canvas.drawText("left eye: " + String.format("%.2f", face.getIsLeftEyeOpenProbability()), x - ID_X_OFFSET*2, y - ID_Y_OFFSET*2, mIdPaint);
-
-        // Draws a bounding box around the face.
-        //float xOffset = scaleX(face.getWidth() / 2.0f);
         float yOffset = scaleY(face.getHeight() / 2.0f);
         float left = x - xOffset;
         float top = y - yOffset;
         float right = x + xOffset;
         float bottom = y + yOffset;
-//
-//        if( face.getIsSmilingProbability()<0.4){
-//            canvas.drawText("Cостояние ссанной депрессии. " ,  x - xOffset+10, y - ID_Y_OFFSET, mIdPaint);
-//        }
-//        else{
-//            canvas.drawText("Радость от того,\n что эта херня заработала " , x - xOffset+10, y - ID_Y_OFFSET, mIdPaint);
-//        }
         final Intent i = new Intent(context, RingtonePlayingService.class);
         final Intent wakeUpService = new Intent(context, WakeUpService.class);
-        if(face.getIsSmilingProbability()>=0.5){
+        bar.setProgress(0);
+        bar.setSecondaryProgress(Math.round((face.getIsSmilingProbability() * 100)));
+        bar.setProgress(Math.round((face.getIsSmilingProbability() * 100)));
+        bar.setMax(100);
+        if (face.getIsSmilingProbability() >= 0.8) {
             context.stopService(i);
             context.stopService(wakeUpService);
-            Log.d("AAAA","smile detection successed");
+            Log.d("AAAA", "smile detection successed");
             context.startActivity(new Intent(context, MainActivity.class));
-//            ((Activity) (context)).finish();
-
         }
         canvas.drawRect(left, top, right, bottom, mBoxPaint);
     }

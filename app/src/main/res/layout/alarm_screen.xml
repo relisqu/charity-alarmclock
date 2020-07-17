@@ -10,23 +10,26 @@
         android:id="@+id/timeTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
         android:text=""
         android:textAlignment="center"
-        android:textSize="64sp"/>
+        android:textColor="@color/blue"
+        android:textSize="64sp" />
 
     <TextView
         android:id="@+id/penaltyTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
         android:text="@string/smile"
         android:textAlignment="center"
-        android:textSize="30sp"
-        android:textColor="#151515" />
+        android:textColor="#151515"
+        android:textSize="30sp" />
 
     <com.example.alarmclock.camera.CameraSourcePreview
         android:id="@+id/preview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="468dp">
 
         <com.example.alarmclock.camera.GraphicOverlay
             android:id="@+id/faceOverlay"
@@ -34,7 +37,17 @@
             android:layout_height="match_parent" />
 
     </com.example.alarmclock.camera.CameraSourcePreview>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:secondaryProgress="20"
+        android:backgroundTint="@color/blue1"
+        android:layout_height="30dp"
+        android:progress="20"
+        android:progressTint="@color/blue"
 
+        android:secondaryProgressTint="@color/blue"/>
 
 
 

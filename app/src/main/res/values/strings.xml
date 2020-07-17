@@ -11,12 +11,13 @@
     <string name="default_channel_description">Уведомления от будильника</string>
     <string name="delete">Удалить</string>
     <string name="dismiss">Отключить</string>
-    <string name="alarm_failed_message">Ты проспал! В мире голодают котики. Оплати, пожалуйста, долг :с</string>
-    <string name="penalty_amount_warning">Твой долг: %1$s₽</string>
-
+    <string name="alarm_failed_message">Вы пропустили будильник на </string>
+    <string name="penalty_amount_warning">Ваш штраф: </string>
+    <string name="title_name">Будильник</string>
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="smile">Улыбнитесь!</string>
+    <string name="pay">Оплатить</string>
 
 </resources>

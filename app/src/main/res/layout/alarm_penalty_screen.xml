@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="15dp"
+    >
 
     <TextView
         android:layout_width="match_parent"
@@ -12,6 +14,9 @@
         android:textColor="#2f2f2f"
         android:textSize="36sp" />
 
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="20dp" />
     <TextView
         android:id="@+id/penaltyInformationView"
         android:layout_width="match_parent"
@@ -19,5 +24,16 @@
         android:text="@string/penalty_amount_warning"
         android:textAlignment="center"
         android:textSize="18sp" />
-
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="60dp" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:background="@color/blue"
+        android:fontFamily="@font/roboto"
+        android:text="@string/pay"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 </LinearLayout>
