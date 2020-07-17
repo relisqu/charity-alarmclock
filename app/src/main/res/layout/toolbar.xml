@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue"
+    android:elevation="10dp"
+    android:paddingHorizontal="20dp"
+    android:padding="10dp"
+
+    android:id="@+id/toolbar"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_name"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        />
+    <Button
+        android:id="@+id/penaltyButton"
+        android:background="@drawable/attach_money"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="right"
+        />
+</Toolbar>
